@@ -1,5 +1,5 @@
 # Dokumentace: Simple Ecosystem Simulation
-Uživatelská část
+## Uživatelská část
 1.1 Cíl a princip
 Tento semestr jsem si jako zápočtový program vybral rozšíření mého minulého programu, tedy simulace ekosystému.
 V minulém programu byl pouze jeden typ organizmu: poletující buňky s jednoduchým chováním. Zaměřil jsem se tedy na to, aby organizmů v nové verzi bylo více, a aby bylo jejich chování komplexnější.
@@ -63,14 +63,14 @@ Zde je seznam počátečních podmínek simulace, které je možné nastavit:
 •	nutriční hodnoty každého jedlé entity (jak dloho ji lze konzumovat, kolik přibude hunger za sekundu konzumace)
 Nastavení podmínek
 Na základě nastavených počátečních podmínek se vývoj simulací drasticky liší. Při nepromyšleném zvolení podmínek často dojde k přemnožení jednoho druhu a vymření druhého. V některých bězích vzniká cyklický vývoj populace, kdy dojde k přemnožení jednoho druhu, načež není dostatek jídla pro udržení tak velké populace, a počet opět rychle klesne. Populační výbuch zajíců je často následován populačním výbuchem lišek a vymřením zajíců.
-(na příští straně programátorská část)
+
  
-2) Programátorská a technická část
-2.1 Prohlášení o použití open-source objektů 
+## 2) Programátorská a technická část
+### 2.1 Prohlášení o použití open-source objektů 
 •	3D modely lišky, zajíce, a jejich animací jsou stažené z internetu (ostatní 3D modely jsou vytvořil sám, např. stromy a jídlo, kameny).
 •	Obsah skriptu CameraMovement.cs jsem stáhnul z internetu, protože by mě jeho psaní jen zdrželo, a přitom bych u toho nevyužil žádný důležitý koncept, ani bych se nenaučil nic nového. Takže jsem ho nepočítal do finální souhrnné délky skriptů.
 •	Na YouTube existuje video https://youtu.be/r_It_X7v-1E?si=lUKwCZ0rNCCmDCNu, kterým jsem se před asi 7 lety inspiroval k vytváření simulací. Stejně jako v tomto videu jsem zvolil jako zvířata lišky a zajíce, protože lišky mají atraktivní barvu a jejich nejčastější kořistí jsou zající, a navíc jsem jejich dobré 3D modely a animace. Kromě inspirace jsem ale video ani skript k němu přiložený vůbec nepoužil, a video jsem po několika letech zhlédnul až po dokončení programu. 
-2.2 Jeden frame instance zvířete
+### 2.2 Jeden frame instance zvířete
 Každá instance zvířete má k sobě připojený skript (buď Rabbit.cs nebo Fox.cs), který obsahuje stejnojmennou třídu, která dědí ze třídy Animal. Třída Animal á v sobě Unity built-in metodu Update(), která se volá každý frame. V této metodě se volají následující funkce:
 •	HandleAgeing(), která má na starosti, že se zvířatům mění věk a velikost, a pokud věk překročí hranici maximumAge, zemřou.
 •	HandleHunger(), která periodicky snižuje hodnotu fieldu hunger, a pokud klesne pod nulu, zvíře zemře.
@@ -78,7 +78,7 @@ Každá instance zvířete má k sobě připojený skript (buď Rabbit.cs nebo F
 •	ActAccordingToState() vykoná nějakou elementární akci na základě stavu, který určila metoda UpdateState().
 •	ResolvePregnancy() updatuje stav těhotenství pro samice 
 •	UpdateAnimationState() podle současné hodnoty AnimalState currentState určí, jaký typ animace bude hrát.
-2.3 Finite state machine
+### 2.3 Finite state machine
 Každé zvíře má field currentState typu enum AnimalState. Zde je seznam možných stavů zvířat:
 •	Idle: nečinné a bez pohybu
 •	Roaming: dokud je zvíře v tomto stavu, nastaví si cíl, který je od něj vzdálený maximálně roamingRange, a snaží se ho dosáhnout; když ho dosáhne, nastaví si další, atd.
@@ -90,14 +90,14 @@ Každé zvíře má field currentState typu enum AnimalState. Zde je seznam mož
 •	GoingToMatingSpot: pohyb do předem domluvené pozice s partnerem
 •	WaitingForParther: pokud do dané pozice jeden partner dorazí dříve, čeká na druhého partnera
 •	Mating: páření, na jehož konci vznikne nová instance Pregnancy a bude přiřazena samici
-2.4 Chování na základě finite state machine
+### 2.4 Chování na základě finite state machine
 Metoda, která je zodpovědná za vykonávání akcí na základě stavu, se jmenuje ActAccordingToState(). Je v ní jeden dlouhý switch statement, který porovnává s hodnotou currentState. Některé akce jsou identické pro zajíce i lišku: například Idle, Roaming, a stavy spojené s rozmnožováním. I když je kód pro tyto akce stejný, chování se stejně bude lišit podle vlastností každé instance. 
 Metody, které se liší mezi liškou a zajícem jsou SearchingForFood, protože liška je výhradně masožravá a zajíc je výhradně býložravý, takže se zavolá abstraktní metoda ActOutSearchingFood, která pro lišku spustí AnimalType.Hunting.
 
-2.5 Hledání požadovaných entit pomocí delegátů
+### 2.5 Hledání požadovaných entit pomocí delegátů
 Během hledání partnera nebo hledání kořisti je třeba najít nejbližší instanci zvířete, která splňuje požadované podmínky. K tomu slouží metoda FindClosestAnimalSatisfyingRequirements, která jako vstup bere generického delegáta Predicate<Animal> MeetsRequirements. Pokud typ situace se tam dosadí buď PartnerRequirements nebo PredatorRequirements.
 
-2.6 Systém jídla
+### 2.6 Systém jídla
 Od minula jsem systém jídla úplně přepracoval, protože nově může být pohlíženo i na zajíce jako na jídlo. Zavedl jsem tedy interface IEdible, který implementují třídy Rabbit a Food. Kontrakt tedy definuje některé metody nutné pro to, aby se při jejich konzumaci chovaly instance těchto tříd unifromně. Kontrakt obsahuje mimo jiné následující metody:
 •	 GetTimeCanBeEaten(), celkový počet zvířatosekund, během nich může být jídlo konzumováno, než bude vypotřebované
 •	GetNutritionPerSecond(), o kolik se za sekundu zvýší hunger zvířat, které ho jedí
@@ -108,7 +108,7 @@ Od minula jsem systém jídla úplně přepracoval, protože nově může být p
 
 
 
-2.7 Genetika
+### 2.7 Genetika
 Zvolil jsem následující vlastnosti, které je možné dědit:
 •	PregnancyTime
 •	ReproductionCooldown (doba, po kterou se nelze pářit po minulém páření)
@@ -127,14 +127,14 @@ Každá instance této třídy popisuje jednu instanci probíhajícího těhoten
 
 
 
-2.8 Vizualizace dat
+### 2.8 Vizualizace dat
 Zatímco v minulé verzi bylo možné zobrazit jen okamžité hodnoty a počty, v té nové jsem zavedl užitečnější systém vizualizace dat, který navíc vykresluje za běhu grafy. K tomu slouží skripty DataCollector.cs a WindowGraph.cs. DataCollector definuje třídu Snapshot, jejíž instance popisuje stav simulace v konkrétním čase. Uživatel stanoví interval pořizování snapshotů a ty se ukládají do seznamu snapshots.
 V konstrukturu třídy Snapshot je logika získávání dat, ve které jsou použité SQL-like dotazy z System.Linq.
-2.9 Co jsem nestihl
+### 2.9 Co jsem nestihl
 Když jsem psal specifikaci, myslel jsem, že serializace bude relativně snadná. Ukázalo se ale, že Unity nepodporuje serializaci několika objektů, které jsem použil, například abstraktních tříd, a tříd, kde jsou cyklické reference (například při páření mají obě instance uloženou referenci na toho druhého). Refactorování kódu tak, aby serializace byla možná, by byl projekt hodný celého zápočtového programu, a tak jsem se rozhodl, že ji dělat nebudu, zvláště když rozsahem kód nad požadavkem.
 Kvůli nedostatku času jsem nestihl naprogramovat popisky na osách grafu. Principiálně by to nebylo těžké z pohledu logiky, ale Unity má poměrně neintuitivní systém User Interface, se kterým jsem v tomto kontextu nepracoval. Zároveň by ta implementace nebyla zajímavá z pohledu C#, jen z pohledu práce s Unity, a tak jsem ji posunul níže na seznam priorit.
 
-2.10 Shrnutí
+### 2.10 Shrnutí
 Myslím, že se mi celkově podařilo dosáhnout toho, o co jsem usilovat: kompletní přepracování minulého programu tak, aby byl komplexnější, využíval pokročilejších konceptů, a zároveň byl vizuálně atraktivnější, než ten minulý. Zakončil jsem tím sérii tří zápočtových programů, které se věnovali vývoji organismů:
 •	První byl v Pythonu v prostředí pygame, kde buňky byly pouze 2D
 •	Druhý už byl v Unity, s
