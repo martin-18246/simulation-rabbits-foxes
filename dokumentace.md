@@ -1,9 +1,9 @@
 # Dokumentace: Simple Ecosystem Simulation
 ## Uživatelská část
-1.1 Cíl a princip
+### 1.1 Cíl a princip
 Tento semestr jsem si jako zápočtový program vybral rozšíření mého minulého programu, tedy simulace ekosystému.
 V minulém programu byl pouze jeden typ organizmu: poletující buňky s jednoduchým chováním. Zaměřil jsem se tedy na to, aby organizmů v nové verzi bylo více, a aby bylo jejich chování komplexnější.
-1.2 Změny oproti minulému programu:
+### 1.2 Změny oproti minulému programu:
 Zde je seznam hlavních věcí, které jsem rozšířil nebo zásadně změnil:
 •	nahrazení jednoduchých buněk animovanými zajíci a liškami 
 •	přepracování systému rozhodování o tom, co má zvíře dělat,
@@ -18,7 +18,7 @@ o	použití delegátů k hledání požadování entit (hledání partnera pro l
 o	využití vnořených typů pro těhotenství atd.
 o	Linq pro hledání podmnožiny entit, které splňují danou vlastnost, pomocí SQL-like dotazů.
 •	Použití 3D modelů vygenerovaných v Blenderu (zvířata, jídlo, prostředí)
-1.3 Stručný přehled skriptů
+### 1.3 Stručný přehled skriptů
 Projekt je vypracovaný v Unity 3D a má celkem 11 skriptů. Zde je jejich stručný přehled:
 •	Animal.cs
 Hlavní skript, který obsahuje abstraktní třídu Animal, ze které dědí třídy Rabbit a Fox. Třída obsahuje chování společné pro tyto třídy jako je stárnutí, rozmnožování, atd.
@@ -44,9 +44,9 @@ Krátký skript pro často používané metody (nejen v tomto projektu).
 •	AnimatorScript.cs
 Správa animací.
 
-1.4 Vlastnosti zvířat
+### 1.4 Vlastnosti zvířat
 Vlastnosti zvířat, u kterých není přesný význam zřejmý z názvu, jsou podrobněji vysvětleny ve skriptu Animal.cs.
-1.5 Ovládání za běhu
+### 1.5 Ovládání za běhu
 Kamera
 Uživatel může za běhu volně pohybovat s kamerou:
 •	Pohyb do stran pomocí prostředního tlačítka
@@ -55,7 +55,7 @@ Uživatel může za běhu volně pohybovat s kamerou:
 Grafy
 Je možné spustit libovolnou množinu grafů najednou: každému grafu odpovídá jedno tlačítko s číslem, a jeho stisknutím se graf vypne nebo zapne.
 
-1.6 Počáteční stav simulace a její spuštění
+### 1.6 Počáteční stav simulace a její spuštění
 Zde je seznam počátečních podmínek simulace, které je možné nastavit:
 •	počet zajíců, lišek, jídla, a prvků prostředí na začátku programu (v komponentu EntityManager objektu GroundEmpty)
 •	průměrné hodnoty a standardní odchylka dědičných vlastností (ve skriptu BaseTraitSettings.cs)
